@@ -1,9 +1,8 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { AiOutlineSearch } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { addItem } from "../../redux/slice/expenseSlice";
-import { FilterContext } from "../../context/FilterContextProvider";
 const TopFold = () => {
   const [search, setSearch] = useState("");
   const [title, setTitle] = useState("");
@@ -11,24 +10,10 @@ const TopFold = () => {
   const [category, setCategory] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const expenseData = useSelector((store) => store.expense.expenseList);
-  const { filterArr, setFilterArr } = useContext(FilterContext);
 
-  const filterData = (arr, data) => {
-    const ans = arr.filter((elem) =>
-      elem.title.toLowerCase().includes(data.toLowerCase())
-    );
-    return ans;
-  };
   const handleSearch = (e) => {
     const val = e.target.value;
     setSearch(val);
-    if (val === "") {
-      setFilterArr(expenseData);
-    } else {
-      const filterVal = filterData(filterArr, val);
-      setFilterArr(filterVal);
-    }
   };
 
   const handleSubmit = () => {
@@ -57,7 +42,7 @@ const TopFold = () => {
     <>
       {window.location.pathname === "/" ? (
         <div className="w-[50%] m-auto flex items-center justify-between bg-white mt-5 p-2">
-          <div className="flex items-center justify-start gap-2 mt-5 outline-none">
+          <div className="flex items-center justify-start gap-2 mt-5 outline-none hidden">
             <AiOutlineSearch />
             <input
               type="text"
